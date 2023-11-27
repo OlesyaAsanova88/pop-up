@@ -16,6 +16,8 @@ const selectedCountry = ref("");
 
 const month = ref(36);
 const percent = ref(0);
+const P = ref(0);
+
 
 const brand = ref("");
 const model = ref("");
@@ -28,10 +30,13 @@ const monthlyPayment = ref(0);
 const name = ref("");
 const phone = ref("");
 
+
+
 const isFormValid = computed(() => {
-  const phoneRegex = /^(\+7) \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+  const phoneRegex = /^89\d{9}$/;
   return name.value.trim().length > 0 && phoneRegex.test(phone.value);
 });
+
 
 const formattedMonthlyPayment = computed(() => {
   return Number(monthlyPayment.value).toLocaleString('ru-RU');
@@ -121,6 +126,10 @@ const total = computed(() => {
 });
 const total2 = computed(() => {
   return percent.value;
+});
+
+const initialPaymentAmount = computed(() => {
+  return (Number(creditAmount.value) * Number(percent.value) / 100).toFixed(0);
 });
 
 
@@ -419,7 +428,7 @@ onMounted(() => {
                 <span>84</span>
               </div>
               <h4 class="pop-up__calculator-label">
-                Первонач. взнос, %: <span> {{ total2 }} ₽</span>
+                Первонач. взнос, %: <span> {{ initialPaymentAmount }} ₽</span>
               </h4>
               <input
                 v-model="percent"
